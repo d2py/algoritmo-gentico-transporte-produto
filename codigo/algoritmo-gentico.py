@@ -58,3 +58,8 @@ if __name__== "__main__":
     print(f"Espaços = {str(individual1.spaces)}")
     print(f"Valores = {str(individual1.values)}")  
     print(f"Cromossomo = {str(individual1.chromosome)}")
+
+    print(f"\nCromossomo da carga")
+    for i in range(len(list_product)):
+        if individual1.chromosome[i] == "1":
+            print(f"Nome: {list_product[i].name} R$: {list_product[i].value}")
