@@ -13,6 +13,7 @@ class Individual():
         self.values = values    
         self.limit_spaces = limit_spaces
         self.note_assessment = 0
+        self.spaces_used = 0
         self.generation = generation
         self.chromosome =[]
 
@@ -24,6 +25,17 @@ class Individual():
 
 
 
+    def assessment(self):
+        note = 0
+        sun_spaces = 0
+        for i in range(len(self.chromosome)):
+            if self.chromosome[i] == "1":
+                note += self.values[i]
+                sun_spaces += self.spaces[i]
+        if sun_spaces > self.limit_spaces:
+            note = 1
+        self.note_assessment = note 
+        self.spaces_used = sun_spaces            
 
 
 if __name__== "__main__":      
@@ -63,3 +75,8 @@ if __name__== "__main__":
     for i in range(len(list_product)):
         if individual1.chromosome[i] == "1":
             print(f"Nome: {list_product[i].name} R$: {list_product[i].value}")
+
+
+    individual1.assessment()
+    print(f"Nota = R$: {individual1.note_assessment:.2f}")
+    print(f"Espaco usdo = {individual1.spaces_used}")        
