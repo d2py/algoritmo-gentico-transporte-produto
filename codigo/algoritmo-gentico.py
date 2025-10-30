@@ -38,6 +38,21 @@ class Individual():
         self.spaces_used = sun_spaces            
 
 
+    def crossover(self, other_individual):
+        court = round(random() * len(self.chromosome))
+
+        child1 = other_individual.chromosome[0:court] + self.chromosome[court::]
+        child2 = self.chromosome[0:court] + other_individual.chromosome[court::]
+
+        children = [Individual(self.spaces, self.values, self.limit_spaces, self.generation + 1),
+                    Individual(self.spaces, self.values, self.limit_spaces, self.generation + 1)]
+
+        children[0].chromosome = child1
+        children[1].chromosome = child2
+        return children
+
+
+
 if __name__== "__main__":      
     list_product = []
     list_product.append(Product("Refrigerator Dako", 0.751, 999.90))
@@ -67,16 +82,26 @@ if __name__== "__main__":
     limit = 3
 
     individual1 = Individual(spaces, values, limit)
-    print(f"Espaços = {str(individual1.spaces)}")
-    print(f"Valores = {str(individual1.values)}")  
-    print(f"Cromossomo = {str(individual1.chromosome)}")
+    print("\nIndividuo 1")
 
-    print(f"\nCromossomo da carga")
     for i in range(len(list_product)):
         if individual1.chromosome[i] == "1":
             print(f"Nome: {list_product[i].name} R$: {list_product[i].value}")
 
-
     individual1.assessment()
     print(f"Nota = R$: {individual1.note_assessment:.2f}")
     print(f"Espaco usdo = {individual1.spaces_used}")        
+
+
+    individual2 = Individual(spaces, values, limit)
+    print("\nIndividuo 2")
+
+    for i in range(len(list_product)):
+        if individual2.chromosome[i] == "1":
+            print(f"Nome: {list_product[i].name} R$: {list_product[i].value}")
+
+    individual1.assessment()
+    print(f"Nota = R$: {individual2.note_assessment:.2f}")
+    print(f"Espaco usdo = {individual2.spaces_used}") 
+
+    individual1.crossover(individual2)
