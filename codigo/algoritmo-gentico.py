@@ -1,107 +1,112 @@
 from random import random
 
-class Product():
-    def __init__(self, name, space, value):
-        self.name = name 
-        self.space = space
-        self.value = value 
-
-
-class Individual():
-    def __init__(self, spaces, values, limit_spaces, generation=0 ):
-        self.spaces = spaces
-        self.values = values    
-        self.limit_spaces = limit_spaces
-        self.note_assessment = 0
-        self.spaces_used = 0
-        self.generation = generation
-        self.chromosome =[]
-
-        for i in range(len(spaces)):
-            if random()  < 0.5:
-                self.chromosome.append("0")
+class Produto():
+    def __init__(self, nome, espaco, valor):
+        self.nome = nome
+        self.espaco = espaco
+        self.valor = valor
+        
+class Individuo():
+    def __init__(self, espacos, valores, limite_espacos, geracao=0):
+        self.espacos = espacos
+        self.valores = valores
+        self.limite_espacos = limite_espacos
+        self.nota_avaliacao = 0
+        self.espaco_usado = 0
+        self.geracao = geracao
+        self.cromossomo = []
+        
+        for i in range(len(espacos)):
+            if random() < 0.5:
+                self.cromossomo.append("0")
             else:
-                self.chromosome.append("1")    
+                self.cromossomo.append("1")
+                
+    def avaliacao(self):
+        nota = 0
+        soma_espacos = 0
+        for i in range(len(self.cromossomo)):
+           if self.cromossomo[i] == '1':
+               nota += self.valores[i]
+               soma_espacos += self.espacos[i]
+        if soma_espacos > self.limite_espacos:
+            nota = 1
+        self.nota_avaliacao = nota
+        self.espaco_usado = soma_espacos
+        
+    def crossover(self, outro_individuo):
+        corte = round(random()  * len(self.cromossomo))
+        
+        filho1 = outro_individuo.cromossomo[0:corte] + self.cromossomo[corte::]
+        filho2 = self.cromossomo[0:corte] + outro_individuo.cromossomo[corte::]
+        
+        filhos = [Individuo(self.espacos, self.valores, self.limite_espacos, self.geracao + 1),
+                  Individuo(self.espacos, self.valores, self.limite_espacos, self.geracao + 1)]
+        filhos[0].cromossomo = filho1
+        filhos[1].cromossomo = filho2
+        return filhos
+        
+    def mutacao(self, taxa_mutacao):
+        print(f"Antes {self.cromossomo}")
+        for i in range(len(self.cromossomo)):
+            if random() < taxa_mutacao:
+                if self.cromossomo[i] == '1':
+                    self.cromossomo[i] = '0'
+                else:
+                    self.cromossomo[i] = '1'    
+        print(f"Depois {self.cromossomo}")
+        return self
 
 
 
-    def assessment(self):
-        note = 0
-        sun_spaces = 0
-        for i in range(len(self.chromosome)):
-            if self.chromosome[i] == "1":
-                note += self.values[i]
-                sun_spaces += self.spaces[i]
-        if sun_spaces > self.limit_spaces:
-            note = 1
-        self.note_assessment = note 
-        self.spaces_used = sun_spaces            
-
-
-    def crossover(self, other_individual):
-        court = round(random() * len(self.chromosome))
-
-        child1 = other_individual.chromosome[0:court] + self.chromosome[court::]
-        child2 = self.chromosome[0:court] + other_individual.chromosome[court::]
-
-        children = [Individual(self.spaces, self.values, self.limit_spaces, self.generation + 1),
-                    Individual(self.spaces, self.values, self.limit_spaces, self.generation + 1)]
-
-        children[0].chromosome = child1
-        children[1].chromosome = child2
-        return children
-
-
-
-if __name__== "__main__":      
-    list_product = []
-    list_product.append(Product("Refrigerator Dako", 0.751, 999.90))
-    list_product.append(Product("Iphone 6", 0.0000899, 2911.12))
-    list_product.append(Product("TV 55", 0.400, 4346))
-    list_product.append(Product("TV 50' ", 0.290, 3999.90))
-    list_product.append(Product("TV 42' ", 0.200, 2999.00))
-    list_product.append(Product("Notebook Dell", 0.00350, 2499.90))
-    list_product.append(Product("Ventilador Panasonic", 0.496, 199.90))
-    list_product.append(Product("Microondas Electrolux", 0.0424, 308.66))
-    list_product.append(Product("Microondas LG", 0.0544, 429.90))
-    list_product.append(Product("Microondas Panasonic", 0.0319, 299.29))
-    list_product.append(Product("Geladeira Brastemp", 0.635, 849.00))
-    list_product.append(Product("Geladeira Consul", 0.870, 1199.89))
-    list_product.append(Product("Notebook Lenovo", 0.498, 1999.90))
-    list_product.append(Product("Notebook Asus", 0.527, 3999.00))
-
-
-    spaces = []
-    values = []
-    names = []
+if __name__ == '__main__':
+    #p1 = Produto("Iphone 6", 0.0000899, 2199.12)
+    lista_produtos = []
+    lista_produtos.append(Produto("Geladeira Dako", 0.751, 999.90))
+    lista_produtos.append(Produto("Iphone 6", 0.0000899, 2911.12))
+    lista_produtos.append(Produto("TV 55' ", 0.400, 4346.99))
+    lista_produtos.append(Produto("TV 50' ", 0.290, 3999.90))
+    lista_produtos.append(Produto("TV 42' ", 0.200, 2999.00))
+    lista_produtos.append(Produto("Notebook Dell", 0.00350, 2499.90))
+    lista_produtos.append(Produto("Ventilador Panasonic", 0.496, 199.90))
+    lista_produtos.append(Produto("Microondas Electrolux", 0.0424, 308.66))
+    lista_produtos.append(Produto("Microondas LG", 0.0544, 429.90))
+    lista_produtos.append(Produto("Microondas Panasonic", 0.0319, 299.29))
+    lista_produtos.append(Produto("Geladeira Brastemp", 0.635, 849.00))
+    lista_produtos.append(Produto("Geladeira Consul", 0.870, 1199.89))
+    lista_produtos.append(Produto("Notebook Lenovo", 0.498, 1999.90))
+    lista_produtos.append(Produto("Notebook Asus", 0.527, 3999.00))
+    #for produto in lista_produtos:
+    #    print(produto.nome)
     
-    for product in list_product:
-        spaces.append(product.space)
-        values.append(product.value)
-        names.append(product.name)
-    limit = 3
+    espacos = []
+    valores = []
+    nomes = []
+    for produto in lista_produtos:
+        espacos.append(produto.espaco)
+        valores.append(produto.valor)
+        nomes.append(produto.nome)
+    limite = 3
+    
+    individuo1 = Individuo(espacos, valores, limite)
+    print("\nIndivíduo 1")
+    for i in range(len(lista_produtos)):
+        if individuo1.cromossomo[i] == '1':
+            print("Nome: %s R$ %s " % (lista_produtos[i].nome, lista_produtos[i].valor))
+    individuo1.avaliacao()
+    print("Nota = %s" % individuo1.nota_avaliacao)
+    print("Espaço usado = %s" % individuo1.espaco_usado)
+    
+    individuo2 = Individuo(espacos, valores, limite)
+    print("\nIndivíduo 2")
+    for i in range(len(lista_produtos)):
+        if individuo2.cromossomo[i] == '1':
+            print("Nome: %s R$ %s " % (lista_produtos[i].nome, lista_produtos[i].valor))
+    individuo2.avaliacao()
+    print("Nota = %s" % individuo2.nota_avaliacao)
+    print("Espaço usado = %s" % individuo2.espaco_usado)
+    
+    individuo1.crossover(individuo2)
 
-    individual1 = Individual(spaces, values, limit)
-    print("\nIndividuo 1")
-
-    for i in range(len(list_product)):
-        if individual1.chromosome[i] == "1":
-            print(f"Nome: {list_product[i].name} R$: {list_product[i].value}")
-
-    individual1.assessment()
-    print(f"Nota = R$: {individual1.note_assessment:.2f}")
-    print(f"Espaco usdo = {individual1.spaces_used}")        
-
-
-    individual2 = Individual(spaces, values, limit)
-    print("\nIndividuo 2")
-
-    for i in range(len(list_product)):
-        if individual2.chromosome[i] == "1":
-            print(f"Nome: {list_product[i].name} R$: {list_product[i].value}")
-
-    individual1.assessment()
-    print(f"Nota = R$: {individual2.note_assessment:.2f}")
-    print(f"Espaco usdo = {individual2.spaces_used}") 
-
-    individual1.crossover(individual2)
+    individuo1.mutacao(0.05)
+    individuo2.mutacao(0.05)
