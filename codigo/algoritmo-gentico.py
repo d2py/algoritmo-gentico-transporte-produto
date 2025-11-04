@@ -59,6 +59,22 @@ class Individuo():
 
 
 
+class AlgoritmoGenetico():
+    def __init__(self, tamanho_população):
+        self.tamanho_populacao = tamanho_população
+        self.populacao = []
+        self.geracao = 0
+        self.melhor_solucao = 0
+
+    def inicializa_populacao(self, espacos, valores, limite_espacos):
+        for i in range(self.tamanho_populacao):
+            self.populacao.append(Individuo(espacos, valores, limite_espacos))
+        self.melhor_solucao = self.populacao[0]       
+        
+
+
+
+
 if __name__ == '__main__':
     #p1 = Produto("Iphone 6", 0.0000899, 2199.12)
     lista_produtos = []
@@ -108,5 +124,5 @@ if __name__ == '__main__':
     
     individuo1.crossover(individuo2)
 
-    individuo1.mutacao(0.05)
-    individuo2.mutacao(0.05)
+    individuo1.mutacao(0.5)
+    individuo2.mutacao(0.5)
