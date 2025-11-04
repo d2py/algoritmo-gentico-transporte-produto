@@ -81,6 +81,11 @@ class AlgoritmoGenetico():
             self.melhor_solucao = individuo
 
 
+    def soma_avaliacoes(self):
+        soma = 0
+        for individuo in self.populacao:
+            soma += individuo.nota_avaliacao
+        return soma
 if __name__ == '__main__':
     #p1 = Produto("Iphone 6", 0.0000899, 2199.12)
     lista_produtos = []
@@ -129,3 +134,6 @@ if __name__ == '__main__':
 
     print(f"Melhor solucao para o problema: {ag.melhor_solucao.cromossomo}")
     print(f"Nota = {ag.melhor_solucao.nota_avaliacao}")
+
+    soma = ag.soma_avaliacoes()
+    print(f"Soma das avaliações: {soma}")
