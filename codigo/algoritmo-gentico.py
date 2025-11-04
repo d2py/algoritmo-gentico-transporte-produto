@@ -76,6 +76,10 @@ class AlgoritmoGenetico():
         self.populacao = sorted(self.populacao, key = lambda populacao: populacao.nota_avaliacao, reverse = True)
 
 
+    def melhor_individuo(self, individuo):
+        if individuo.nota_avaliacao > self.melhor_solucao.nota_avaliacao:
+            self.melhor_solucao = individuo
+
 
 if __name__ == '__main__':
     #p1 = Produto("Iphone 6", 0.0000899, 2199.12)
@@ -113,10 +117,15 @@ if __name__ == '__main__':
     for individuo in ag.populacao:
         individuo.avaliacao()
 
-    ag.ordena_populacao()    
+    ag.ordena_populacao()   
+    ag.melhor_individuo(ag.populacao[0]) 
+    
     for i in range(ag.tamanho_populacao):
         print(f"*** Individuo ***{i}, ")
         print(f"Espaços = {str(ag.populacao[i].espacos)}")
         print(f"Valores = {str(ag.populacao[i].valores)}")
         print(f"Cromossomo = {str(ag.populacao[i].cromossomo)}")
         print(f"Nota = {ag.populacao[i].nota_avaliacao}\n")
+
+    print(f"Melhor solucao para o problema: {ag.melhor_solucao.cromossomo}")
+    print(f"Nota = {ag.melhor_solucao.nota_avaliacao}")
