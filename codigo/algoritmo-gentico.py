@@ -72,6 +72,8 @@ class AlgoritmoGenetico():
         self.melhor_solucao = self.populacao[0]       
         
 
+    def ordena_populacao(self):
+        self.populacao = sorted(self.populacao, key = lambda populacao: populacao.nota_avaliacao, reverse = True)
 
 
 
@@ -104,25 +106,17 @@ if __name__ == '__main__':
         nomes.append(produto.nome)
     limite = 3
     
-    individuo1 = Individuo(espacos, valores, limite)
-    print("\nIndivíduo 1")
-    for i in range(len(lista_produtos)):
-        if individuo1.cromossomo[i] == '1':
-            print("Nome: %s R$ %s " % (lista_produtos[i].nome, lista_produtos[i].valor))
-    individuo1.avaliacao()
-    print("Nota = %s" % individuo1.nota_avaliacao)
-    print("Espaço usado = %s" % individuo1.espaco_usado)
+    tamanho_populacao = 20
     
-    individuo2 = Individuo(espacos, valores, limite)
-    print("\nIndivíduo 2")
-    for i in range(len(lista_produtos)):
-        if individuo2.cromossomo[i] == '1':
-            print("Nome: %s R$ %s " % (lista_produtos[i].nome, lista_produtos[i].valor))
-    individuo2.avaliacao()
-    print("Nota = %s" % individuo2.nota_avaliacao)
-    print("Espaço usado = %s" % individuo2.espaco_usado)
-    
-    individuo1.crossover(individuo2)
+    ag = AlgoritmoGenetico(tamanho_populacao)
+    ag.inicializa_populacao(espacos, valores, limite)
+    for individuo in ag.populacao:
+        individuo.avaliacao()
 
-    individuo1.mutacao(0.5)
-    individuo2.mutacao(0.5)
+    ag.ordena_populacao()    
+    for i in range(ag.tamanho_populacao):
+        print(f"*** Individuo ***{i}, ")
+        print(f"Espaços = {str(ag.populacao[i].espacos)}")
+        print(f"Valores = {str(ag.populacao[i].valores)}")
+        print(f"Cromossomo = {str(ag.populacao[i].cromossomo)}")
+        print(f"Nota = {ag.populacao[i].nota_avaliacao}\n")
